@@ -1,17 +1,11 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, Row, Col, AutoComplete } from "antd";
-import NavBar from "../../components/NavBar";
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Row, Col, AutoComplete } from 'antd';
+import NavBar from '../../components/NavBar';
 import axios from "axios";
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button, Row, Col, AutoComplete } from "antd";
-import NavBar from "../../components/NavBar";
-import "./Explore.css";
-
 const Explore = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [cities, setCities] = useState([
     "New York, NY",
     "Los Angeles, CA",
@@ -114,92 +108,82 @@ const Explore = () => {
     "Richmond, VA",
     "San Bernardino, CA",
     "Birmingham, AL",
-    "Las Vegas",
-    "Los Angeles",
-    "New York",
-    "New Jersey",
-    "Buffalo",
-    "Bloomington",
   ]);
 
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    console.log("Search:", searchValue);
+    console.log('Search:', searchValue);
     const url = `/attraction-details/search/?city=${searchValue}`;
 
-    axios
-      .get(url)
-      .then((response) => {
-        const payload = response.data;
-        const attractions = payload.attractions;
-        navigate("/attractions/selection", { state: { data: attractions } });
-      })
-      .catch((error) => {
-        // Handle error
-        console.error(error);
-      });
-  };
-  // Handle search logic here
-  console.log("Search:", searchValue);
-};
-
-const handleSearchValueChange = (value) => {
-  setSearchValue(value);
-};
-
-const renderOptions = () => {
-  return cities
-    .filter((city) => city.toLowerCase().includes(searchValue.toLowerCase()))
-    .map((city) => {
-      return <AutoComplete.Option key={city}>{city}</AutoComplete.Option>;
+    axios.get(url).then((response) => {
+    const payload = response.data;
+    const attractions = payload.attractions;
+    navigate('/attractions/selection', { state: { data: attractions } });
+    
+    }).catch((error) => {
+    // Handle error
+    console.error(error);
     });
 };
 
-return (
-  <div className="explore-container">
-    <NavBar />
-    <Row justify="center" align="middle" style={{ margin: "2rem 0" }}>
-      <Col span={3} offset={1}>
-        <Button type="primary">
-          <Link className="link" to="/flights">
-            Flight Booking
-          </Link>
-        </Button>
-      </Col>
-      <Col span={3} offset={1}>
-        <Button type="primary">
-          <Link className="link" to="/hotels">
-            Hotel Booking
-          </Link>
-        </Button>
-      </Col>
-      <Col span={3} offset={1}>
-        <Button type="primary">
-          <Link className="link" to="/attractions">
-            Attractions
-          </Link>
-        </Button>
-      </Col>
-    </Row>
-    <Row justify="center" align="middle" style={{ margin: "1rem 0" }}>
-      <Col span={8}>
-        <AutoComplete
-          placeholder="Search"
-          value={searchValue}
-          onChange={handleSearchValueChange}
-          style={{ width: "100%" }}
-        >
-          {renderOptions()}
-        </AutoComplete>
-      </Col>
-      <Col span={2} offset={1}>
-        <Button onClick={handleSearch} type="primary">
-          Search
-        </Button>
-      </Col>
-    </Row>
-  </div>
-);
+  const handleSearchValueChange = (value) => {
+    setSearchValue(value);
+  };
+
+  const renderOptions = () => {
+    return cities
+      .filter(city => city.toLowerCase().includes(searchValue.toLowerCase()))
+      .map((city) => {
+        return <AutoComplete.Option key={city}>{city}</AutoComplete.Option>;
+      });
+  };
+
+  return (
+    <div>
+      <NavBar />
+      <Row justify="center" align="middle" style={{ margin: '2rem 0' }}>
+        <Col span={3} offset={1}>
+          <Button type="primary">
+            <Link className="link" to="/flights">
+              Flight Booking
+            </Link>
+          </Button>
+        </Col>
+        <Col span={3} offset={1}>
+          <Button type="primary">
+            <Link className="link" to="/hotels">
+              Hotel Booking
+            </Link>
+          </Button>
+        </Col>
+        <Col span={3} offset={1}>
+          <Button type="primary">
+            <Link className="link" to="/attractions">
+              Attractions
+            </Link>
+            </Button>
+        </Col>
+      </Row>
+      <Row justify="center" align="middle" style={{ margin: '1rem 0' }}>
+        <Col span={8}>
+          <AutoComplete
+            placeholder="Search"
+            value={searchValue}
+            onChange={handleSearchValueChange}
+            style={{ width: '100%' }}
+          >
+            {renderOptions()}
+          </AutoComplete>
+        </Col>
+        <Col span={2} offset={1}>
+          <Button onClick={handleSearch} type="primary">
+            Search
+          </Button>
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 export default Explore;

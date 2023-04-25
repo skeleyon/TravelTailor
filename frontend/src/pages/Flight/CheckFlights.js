@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
   Container,
   Row,
@@ -24,12 +24,12 @@ const CheckFlights = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/flight-details/get-airports/")
+    fetch('/flight-details/get-airports/')
       .then((response) => response.json())
       .then((data) => {
         setAirports(data.airports);
       })
-      .catch((error) => console.error("Error fetching airports:", error));
+      .catch((error) => console.error('Error fetching airports:', error));
   }, []);
 
   const handleTripTypeChange = (event) => {
@@ -78,20 +78,19 @@ const CheckFlights = () => {
       numOfPassengers,
     });
 
-    axios
-      .get("/flight-details/search/", {
+    axios.get('/flight-details/search/', {
         params: {
-          type: tripType,
-          flights: JSON.stringify(flightList),
-        },
+            type: tripType,
+            flights: JSON.stringify(flightList)
+        }
       })
-      .then((response) => {
+      .then(response => {
         // Handle response
         const payload = response.data;
         const flights = payload.flights;
-        navigate("/flights/selection", { state: { data: flights } });
+        navigate('/flights/selection', { state: { data: flights } });
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
       });
     // axios.get(`/flight-details/search?type=${tripType}&flights=${JSON.stringify(flight_list)}`)
@@ -101,14 +100,7 @@ const CheckFlights = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage:
-          'url("https://images.pexels.com/photos/1004584/pexels-photo-1004584.jpeg")',
-        backgroundSize: "cover",
-        height: "100vh",
-      }}
-    >
+    <div>
       <Row className="justify-content-center">
         <Col md={8}>
           <Form onSubmit={handleSubmit}>
@@ -144,134 +136,135 @@ const CheckFlights = () => {
                     value="multi-city"
                     checked={tripType === "multi-city"}
                     onChange={handleTripTypeChange}
-                  />
-                  Multi-city
-                </Label>
+                    />
+                    Multi-city
+                  </Label>
+                </FormGroup>
               </FormGroup>
-            </FormGroup>
-            <FormGroup>
-              <Label>Flights:</Label>
-              {flightList.map((flight, index) => (
-                <div key={index}>
-                  <Row>
-                    <Col md={4}>
-                      <FormGroup>
-                        <Label>Departure City:</Label>
-                        {/* <Input
+              <FormGroup>
+                <Label>Flights:</Label>
+                {flightList.map((flight, index) => (
+                  <div key={index}>
+                    <Row>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label>Departure City:</Label>
+                          {/* <Input
                             type="text"
                             value={flight.departureCity}
                             onChange={(event) =>
                               handleDepartureCityChange(event, index)
                             }
                           /> */}
-                        <select
-                          id="dept"
-                          value={flight.departureCity}
-                          onChange={(event) =>
-                            handleDepartureCityChange(event, index)
-                          }
-                        >
-                          <option value="">Select Departure City</option>
-                          {airports.map((airport) => (
-                            <option key={airport.id} value={airport.id}>
-                              {airport.city} {airport.code}
-                            </option>
-                          ))}
-                        </select>
-                      </FormGroup>
-                    </Col>
-                    <Col md={4}>
-                      <FormGroup>
-                        <Label>Arrival City:</Label>
-                        {/* <Input
+                          <select
+                            id="dept"
+                            value={flight.departureCity}
+                            onChange={(event) =>
+                                handleDepartureCityChange(event, index)
+                              }
+                            >
+                            <option value="">Select Departure City</option>
+                            {airports.map((airport) => (
+                                <option key={airport.id} value={airport.id}>
+                                {airport.city}  {airport.code}
+                                </option>
+                            ))}
+                            </select>
+                        </FormGroup>
+                      </Col>
+                      <Col md={4}>
+                        <FormGroup>
+                          <Label>Arrival City:</Label>
+                          {/* <Input
                             type="text"
                             value={flight.arrivalCity}
                             onChange={(event) =>
                               handleArrivalCityChange(event, index)
                             }
                           /> */}
-                        <select
-                          id="dept"
-                          value={flight.arrivalCity}
-                          onChange={(event) =>
-                            handleArrivalCityChange(event, index)
-                          }
-                        >
-                          <option value="">Select Arrival City</option>
-                          {airports.map((airport) => (
-                            <option key={airport.id} value={airport.id}>
-                              {airport.city} {airport.code}
-                            </option>
-                          ))}
-                        </select>
-                      </FormGroup>
-                    </Col>
-                    <Col md={3}>
-                      <FormGroup>
-                        <Label>Departure Date:</Label>
-                        <Input
-                          type="date"
-                          value={flight.departureDate}
-                          onChange={(event) =>
-                            handleDepartureDateChange(event, index)
-                          }
-                        />
-                      </FormGroup>
-                    </Col>
-                    {tripType === "multi-city" && (
-                      <Col md={1}>
-                        {index === flightList.length - 1 ? (
-                          <Button
-                            color="primary"
-                            onClick={handleAddFlight}
-                            className="mt-4"
-                          >
-                            Add
-                          </Button>
-                        ) : (
-                          <Button
-                            color="danger"
-                            onClick={() => handleRemoveFlight(index)}
-                            className="mt-4"
-                          >
-                            Remove
-                          </Button>
-                        )}
+                          <select
+                            id="dept"
+                            value={flight.arrivalCity}
+                            onChange={(event) =>
+                                handleArrivalCityChange(event, index)
+                              }
+                            >
+                            <option value="">Select Arrival City</option>
+                            {airports.map((airport) => (
+                                <option key={airport.id} value={airport.id}>
+                                {airport.city}  {airport.code}
+                                </option>
+                            ))}
+                            </select>
+                        </FormGroup>
                       </Col>
-                    )}
-                  </Row>
-                </div>
-              ))}
-            </FormGroup>
-            {tripType === "round-trip" && (
+                      <Col md={3}>
+                        <FormGroup>
+                          <Label>Departure Date:</Label>
+                          <Input
+                            type="date"
+                            value={flight.departureDate}
+                            onChange={(event) =>
+                              handleDepartureDateChange(event, index)
+                            }
+                          />
+                        </FormGroup>
+                      </Col>
+                      {tripType === "multi-city" && (
+                        <Col md={1}>
+                            {index === flightList.length - 1 ? (
+                            <Button
+                                color="primary"
+                                onClick={handleAddFlight}
+                                className="mt-4"
+                            >
+                                Add
+                            </Button>
+                            ) : (
+                            <Button
+                                color="danger"
+                                onClick={() => handleRemoveFlight(index)}
+                                className="mt-4"
+                            >
+                                Remove
+                            </Button>
+                            )}
+                        </Col>
+                      )}
+                    </Row>
+                  </div>
+                ))}
+              </FormGroup>
+              {tripType === "round-trip" && (
+                <FormGroup>
+                  <Label>Return Date:</Label>
+                  <Input
+                    type="date"
+                    value={returnDate}
+                    onChange={(event) => setReturnDate(event.target.value)}
+                  />
+                </FormGroup>
+              )}
               <FormGroup>
-                <Label>Return Date:</Label>
+                <Label>Number of Passengers:</Label>
                 <Input
-                  type="date"
-                  value={returnDate}
-                  onChange={(event) => setReturnDate(event.target.value)}
+                  type="number"
+                  min={1}
+                  value={numOfPassengers}
+                  onChange={(event) =>
+                    setNumOfPassengers(Number(event.target.value))
+                  }
                 />
               </FormGroup>
-            )}
-            <FormGroup>
-              <Label>Number of Passengers:</Label>
-              <Input
-                type="number"
-                min={1}
-                value={numOfPassengers}
-                onChange={(event) =>
-                  setNumOfPassengers(Number(event.target.value))
-                }
-              />
-            </FormGroup>
-            <Button type="submit" color="primary" className="mt-4">
-              Submit
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-    </div>
-  );
-};
-
-export default CheckFlights;
+              <Button type="submit" color="primary" className="mt-4">
+                Submit
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </div>
+    );
+  };
+  
+  export default CheckFlights;
+  
