@@ -1,0 +1,28 @@
+/* Navigation Bar */
+  
+.navbar {
+    padding-left: 15%;
+    padding-right: 15%;
+  }
+  
+  .navbar-brand {
+    font-family: "Ubuntu";
+    font-size: 40px;
+    font-weight: bold;
+  }
+  
+  #navbar {
+    background-color: #459A9B;
+    width: 100%;
+    display:flex;
+    flex-wrap:wrap;
+  }
+  
+  .nav-item {
+    padding: 0 18px;
+  }
+  
+  .nav-link {
+    font-size: 1.2rem;
+    font-family: "Montserrat-Light";
+  }

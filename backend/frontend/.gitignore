@@ -1,0 +1,6 @@
+/package-lock.json
+/node_modules
+.env
+./__pycache__
+/static/frontend/main.js
+/static/frontend/main.js.LICENSE.txt
